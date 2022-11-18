@@ -112,3 +112,5 @@ data
 *.*~
 
 .DS_Store
+generated_dataset
+*.zip
