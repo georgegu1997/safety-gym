@@ -47,14 +47,14 @@ for ep in range(100):
 
     while not done:
         action = env.action_space.sample()
-        print(action)
         next_observation, reward, done, info = env.step(action)
+        
         # pprint(next_observation)
         # print(reward)
         # print(done)
         # print(info)
 
-        env.render(mode='human')
+        # env.render(mode='human')
 
         # if t % 20 == 0:
         #     img = env.render(mode='rgb_array', camera_id=1)
@@ -70,15 +70,17 @@ for ep in range(100):
         #     # vertical flip
         #     img = cv2.flip(img, 0)
         #     cv2.imwrite('./obs/vision_{}.png'.format(t), img)
+
         #     plt.imshow(img)
         #     plt.show()
-        #     pass
 
-        # if t % 5 == 0:
-        #     img = env.render(mode='rgb_array', camera_id=1)
-        #     # plt.imshow(img)
-        #     # plt.show()
-        #     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        #     cv2.imwrite(str(ep_folder / ('obs_%06d.png'%(t//5))), img)
+        if t % 5 == 0:
+            img = env.render(mode='rgb_array', camera_id=1)
+            
+            # plt.imshow(img)
+            # plt.show()
+            
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            cv2.imwrite(str(ep_folder / ('obs_%06d.png'%(t//5))), img)
 
         t += 1
