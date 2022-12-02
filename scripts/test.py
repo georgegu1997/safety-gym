@@ -1,4 +1,5 @@
 import os
+import time
 import numpy as np
 import matplotlib.pyplot as plt
 import cv2
@@ -14,6 +15,7 @@ from pprint import pprint
 
 config = {
     'robot_base': 'xmls/point2.xml',
+    # 'robot_base': 'xmls/point.xml',
     'task': 'goal',
     'observe_goal_lidar': True,
     'observe_box_lidar': True,
@@ -26,9 +28,8 @@ config = {
     'vases_num': 4,
     'observation_flatten': False,
     'render_lidar_markers': False,
-    # 'observe_vision': True,
-    # "render_labels": True,
-    # 'observe_gremlins': False,
+    'vases_size': 0.2,  # Half-size (radius) of vase object
+    'robot_rot': 0,  # Override robot starting angle
 }
 
 env = Engine(config)
@@ -45,13 +46,22 @@ for ep in range(100):
         os.makedirs(ep_folder)
 
     while not done:
-        next_observation, reward, done, info = env.step(env.action_space.sample())
-        pprint(next_observation)
-        print(reward)
-        print(done)
-        print(info)
+        action = env.action_space.sample()
+        print(action)
+        next_observation, reward, done, info = env.step(action)
+        # pprint(next_observation)
+        # print(reward)
+        # print(done)
+        # print(info)
 
-        # env.render(mode='human')
+        env.render(mode='human')
+
+        # if t % 20 == 0:
+        #     img = env.render(mode='rgb_array', camera_id=1)
+        #     plt.imshow(img)
+        #     plt.show()
+        
+        # exit(0)
 
         # Every 20 steps, save next_observation['vision'] to a file
         # if t % 20 == 0:
@@ -64,11 +74,11 @@ for ep in range(100):
         #     plt.show()
         #     pass
 
-        if t % 5 == 0:
-            img = env.render(mode='rgb_array', camera_id=1)
-            # plt.imshow(img)
-            # plt.show()
-            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-            cv2.imwrite(str(ep_folder / ('obs_%06d.png'%(t//5))), img)
+        # if t % 5 == 0:
+        #     img = env.render(mode='rgb_array', camera_id=1)
+        #     # plt.imshow(img)
+        #     # plt.show()
+        #     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        #     cv2.imwrite(str(ep_folder / ('obs_%06d.png'%(t//5))), img)
 
         t += 1

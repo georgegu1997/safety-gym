@@ -170,10 +170,17 @@ class World:
                 g.update({'@size': convert(self.floor_size), '@rgba': '1 1 1 1', '@material': 'MatPlane'})
 
         # Add cameras to the XML dictionary
+        # cameras = xmltodict.parse('''<b>
+        #     <camera name="fixednear" pos="0 -2 2" zaxis="0 -1 1"/>
+        #     <camera name="fixedfar" pos="0 -5 5" zaxis="0 -1 1"/>
+        #     </b>''')
+        
+        # Change camera to a top-down view
         cameras = xmltodict.parse('''<b>
             <camera name="fixednear" pos="0 -2 2" zaxis="0 -1 1"/>
-            <camera name="fixedfar" pos="0 -5 5" zaxis="0 -1 1"/>
+            <camera name="fixedfar" pos="0 0 6" zaxis="0 0 1"/>
             </b>''')
+            
         worldbody['camera'] = cameras['b']['camera']
 
         # Build and add a tracking camera (logic needed to ensure orientation correct)
